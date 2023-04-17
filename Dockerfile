@@ -9,7 +9,7 @@ COPY ./mt5_leader/requirements.txt ./
 RUN python.exe -m pip install --upgrade pip
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 COPY ./mt5_leader/ ./mt5_leader/
-COPY ["./MetaTrader 5/", "C:/Program Files/MetaTrader 5/"]
+COPY ["./MetaTrader 5/", "./MetaTrader 5/"]
 # enter entry point parameters executing the container
 ENTRYPOINT ["powershell.exe"]
 

@@ -12,7 +12,7 @@ terminal: Terminal
 event_loop = asyncio.Event()  # init async event
 init_data = {}
 host = 'http://91.228.224.105:8000/'
-terminal_path = '/MetaTrader 5/'
+terminal_path = 'C:/MetaTrader 5/'
 account_id = 1
 leader_id = 0
 

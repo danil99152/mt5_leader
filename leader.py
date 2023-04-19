@@ -1,5 +1,6 @@
 import asyncio
 import json
+import os
 from datetime import datetime
 
 import requests
@@ -12,7 +13,7 @@ terminal: Terminal
 event_loop = asyncio.Event()  # init async event
 init_data = {}
 host = 'http://91.228.224.105:8000/'
-terminal_path = r'C:\MetaTrader 5\terminal64.exe'
+terminal_path = os.path.abspath('C:/MetaTrader 5/terminal64.exe')
 account_id = 1
 leader_id = 0
 

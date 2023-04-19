@@ -9,7 +9,7 @@ COPY ./mt5_leader/requirements.txt ./
 RUN python.exe -m pip install --upgrade pip
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 COPY ./mt5_leader/ ./mt5_leader/
-COPY ["./MetaTrader 5/", "C:/MetaTrader 5/"]
+COPY ["/MetaTrader 5/", "/MetaTrader 5/"]
 # enter entry point parameters executing the container
 ENTRYPOINT ["powershell.exe"]
 
@@ -17,6 +17,6 @@ ENTRYPOINT ["powershell.exe"]
 CMD ["python", "mt5_leader/leader.py"]
 
 # build
-# docker build -t mt5_investor .
+# docker build -t mt5_leader .
 # run
-# docker run -p 8000:8000 <image_id>
+# docker run --name mt5-leader <image_id>

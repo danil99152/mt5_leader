@@ -134,6 +134,7 @@ if __name__ == '__main__':
                         password=init_data['password'],
                         server=init_data['server'],
                         path=init_data['path'],
+                        portable=True,
                         start_date=datetime.now())
     if not terminal.init_mt():
         print('Ошибка инициализации лидера', init_data)

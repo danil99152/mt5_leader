@@ -10,10 +10,10 @@ RUN python.exe -m pip install --upgrade pip
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 COPY ./mt5_leader/ ./mt5_leader/
 COPY ["/MetaTrader 5/", "/MetaTrader 5/"]
+
 # enter entry point parameters executing the container
 ENTRYPOINT ["powershell.exe"]
 
-# exposing the port to match the port in the runserver.py file
 CMD ["python", "mt5_leader/leader.py"]
 
 # build

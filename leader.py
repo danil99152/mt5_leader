@@ -13,7 +13,7 @@ terminal: Terminal
 event_loop = asyncio.Event()  # init async event
 init_data = {}
 host = 'http://91.228.224.105:8000/'
-terminal_path = os.path.abspath('C:/MetaTrader 5/terminal64.exe')
+terminal_path = os.path.abspath('MetaTrader5/terminal64.exe')
 account_id = 1
 leader_id = 0
 
@@ -24,8 +24,12 @@ def get_settings(account_idx):
     user_id = requests.get(url=url_lid).json()
     leader_id = user_id
     url = host + f'account/get/{user_id}'
-    init_data = requests.get(url=url).json()[-1]
-    init_data['path'] = terminal_path
+    try:
+        init_data = requests.get(url=url).json()[-1]
+        init_data['path'] = terminal_path
+    except Exception as e:
+        print(e)
+        get_settings(account_idx)
 
 
 async def send_position(position):

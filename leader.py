@@ -21,11 +21,11 @@ leader_id = 0
 def get_settings(account_idx):
     global init_data, leader_id
     url_lid = host + f'leader_id/get/{account_idx}'
-    response = requests.get(url=url_lid)
-    user_id = response.json()
-    leader_id = user_id
-    url = host + f'account/get/{user_id}'
     try:
+        response = requests.get(url=url_lid)
+        user_id = response.json()
+        leader_id = user_id
+        url = host + f'account/get/{user_id}'
         init_data = requests.get(url=url).json()[-1]
         init_data['path'] = terminal_path
     except Exception as e:

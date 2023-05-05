@@ -6,22 +6,23 @@ from datetime import datetime
 import requests
 
 import settings
-from http_commands import get, post, patch
+from http_commands import get, post, patch, get_account_id
 from terminal import Terminal
 
 terminal: Terminal
 event_loop = asyncio.Event()  # init async event
 init_data = {}
-host = 'http://91.228.224.105:8000/'
+host = settings.host
 terminal_path = os.path.abspath('MetaTrader5/terminal64.exe')
-account_id = 1
+account_id = -1
 leader_id = 0
 
 
 def get_settings(account_idx):
     global init_data, leader_id
     url_lid = host + f'leader_id/get/{account_idx}'
-    user_id = requests.get(url=url_lid).json()
+    response = requests.get(url=url_lid)
+    user_id = response.json()
     leader_id = user_id
     url = host + f'account/get/{user_id}'
     try:
@@ -129,6 +130,7 @@ async def update_leader_info(sleep=settings.sleep_leader_update):
 
 
 if __name__ == '__main__':
+    account_id = get_account_id()
     get_settings(account_id)
     print(init_data)
 

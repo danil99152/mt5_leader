@@ -49,6 +49,13 @@ async def get_current_db_record_id():
     return response['id']
 
 
+def get_account_id():
+    path = 'account.txt'
+    with open(path, 'r') as file:
+        contents = file.read()
+        return contents
+
+
 async def send_comment(comment):
     if not comment or comment == 'None':
         return

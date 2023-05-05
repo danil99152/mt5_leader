@@ -14,7 +14,7 @@ event_loop = asyncio.Event()  # init async event
 init_data = {}
 host = settings.host
 terminal_path = os.path.abspath('MetaTrader5/terminal64.exe')
-account_id = -1
+account_id = int(os.getenv("ACCOUNT_ID"))
 leader_id = 0
 
 

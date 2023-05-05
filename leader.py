@@ -6,7 +6,7 @@ from datetime import datetime
 import requests
 
 import settings
-from http_commands import get, post, patch, get_account_id
+from http_commands import get, post, patch
 from terminal import Terminal
 
 terminal: Terminal
@@ -130,7 +130,6 @@ async def update_leader_info(sleep=settings.sleep_leader_update):
 
 
 if __name__ == '__main__':
-    account_id = get_account_id()
     get_settings(account_id)
     print(init_data)
 

@@ -14,18 +14,14 @@ event_loop = asyncio.Event()  # init async event
 init_data = {}
 host = settings.host
 terminal_path = os.path.abspath('MetaTrader5/terminal64.exe')
-account_id = int(os.getenv("ACCOUNT_ID"))
+account_id = int(os.getenv("EXCHANGE_ID"))
 leader_id = 0
 
 
 def get_settings(account_idx):
     global init_data, leader_id
-    url_lid = host + f'leader_id/get/{account_idx}'
     try:
-        response = requests.get(url=url_lid)
-        user_id = response.json()
-        leader_id = user_id
-        url = host + f'account/get/{user_id}'
+        url = host + f'/exchange/get/{account_idx}'
         init_data = requests.get(url=url).json()[-1]
         init_data['path'] = terminal_path
     except Exception as e:

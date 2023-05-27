@@ -13,4 +13,4 @@ CMD xvfb-run wine python -u ./mt5_leader/leader.py
 # docker build -t mt5-leader .
 #
 # run
-# docker run --name mt5-leader <image_id> --env ACCOUNT_ID=<account_pk>
+# docker run --name mt5-leader <image_id> --env EXCHANGE_ID=<exchange_pk>

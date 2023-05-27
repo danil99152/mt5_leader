@@ -14,25 +14,24 @@ event_loop = asyncio.Event()  # init async event
 init_data = {}
 host = settings.host
 terminal_path = os.path.abspath('MetaTrader5/terminal64.exe')
-account_id = int(os.getenv("EXCHANGE_ID"))
-leader_id = 0
+exchange_id = int(os.getenv("EXCHANGE_ID"))
 
 
-def get_settings(account_idx):
-    global init_data, leader_id
+def get_settings(exchange_idx):
+    global init_data
     try:
-        url = host + f'exchange/get/{account_idx}'
+        url = host + f'exchange/get/{exchange_idx}'
         init_data = requests.get(url=url).json()[-1]
         init_data['path'] = terminal_path
     except Exception as e:
         print(e)
-        get_settings(account_idx)
+        get_settings(exchange_idx)
 
 
 async def send_position(position):
     url = host + 'position/post'
     data = {
-        "account_pk": leader_id,
+        "exchange_pk": exchange_id,
         "ticket": position.ticket,
         "time": position.time,
         "time_update": position.time_update,
@@ -57,7 +56,7 @@ async def send_position(position):
 
 
 async def update_position(position):
-    url = host + f'position/patch/{leader_id}/{position.ticket}'
+    url = host + f'position/patch/{exchange_id}/{position.ticket}'
     data = {
         "time_update": position.time_update,
         "volume": position.volume,
@@ -70,8 +69,8 @@ async def update_position(position):
     await patch(url=url, data=json.dumps(data))
 
 
-async def disable_position(id_leader, position_ticket):
-    url = host + f'position/patch/{id_leader}/{position_ticket}'
+async def disable_position(id_exchange, position_ticket):
+    url = host + f'position/patch/{id_exchange}/{position_ticket}'
     data = {
         # "price_close": 0,
         # "time_close": 0,
@@ -81,13 +80,13 @@ async def disable_position(id_leader, position_ticket):
     await patch(url=url, data=json.dumps(data))
 
 
-async def get_db_positions(id_leader):
-    url = host + f'position/list/active/{id_leader}'
+async def get_db_positions(id_exchange):
+    url = host + f'position/list/active/{id_exchange}'
     return await get(url=url)
 
 
 async def send_trade_state(balance, equity):
-    url = host + f'account/patch/{account_id}'
+    url = host + f'exchange/patch/{exchange_id}'
     data = {'balance': balance,
             'equity': equity,
             }
@@ -95,7 +94,7 @@ async def send_trade_state(balance, equity):
 
 
 def send_currency():
-    url = host + f'account/patch/{account_id}'
+    url = host + f'exchange/patch/{exchange_id}'
     data = {"currency": Terminal.get_account_currency()}
     requests.patch(url=url, data=json.dumps(data))
 
@@ -106,13 +105,13 @@ async def update_leader_info(sleep=settings.sleep_leader_update):
         leader_equity = terminal.get_equity()
         await send_trade_state(leader_balance, leader_equity)
 
-        active_db_positions = await get_db_positions(leader_id)
+        active_db_positions = await get_db_positions(exchange_id)
         active_db_tickets = [position['ticket'] for position in active_db_positions]
         terminal_positions = Terminal.get_positions(only_own=False)
         terminal_tickets = [position.ticket for position in terminal_positions]
         for position in active_db_positions:
             if position['ticket'] not in terminal_tickets:
-                await disable_position(leader_id, position['ticket'])
+                await disable_position(exchange_id, position['ticket'])
         for position in terminal_positions:
             if position.ticket not in active_db_tickets:
                 await send_position(position)
@@ -126,7 +125,7 @@ async def update_leader_info(sleep=settings.sleep_leader_update):
 
 
 if __name__ == '__main__':
-    get_settings(account_id)
+    get_settings(exchange_id)
     print(init_data)
 
     if not Terminal.is_init_data_valid(init_data):

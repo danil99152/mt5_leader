@@ -1,12 +1,16 @@
-FROM msjpq/wine-vnc:bionic
+FROM tobix/pywine:3.10
 
-ADD . .
+ADD ./mt5_leader ./mt5_leader
+ADD ./MetaTrader5 ./MetaTrader5
 
-CMD sleep 1d
+RUN cd / && apt update && apt install -y xvfb && \
+    wine python -m pip install --upgrade pip setuptools && \
+    wine python -m pip install -r ./mt5_leader/requirements.txt
 
+CMD xvfb-run wine python -u ./mt5_leader/leader.py
 
 # build
-# docker build -t myimage .
-
+# docker build -t mt5-leader .
+#
 # run
-# docker run -p 8080:8080 -p 5900:5900 --name leader <container_id>
+# docker run --name mt5-leader <image_id> --env ACCOUNT_ID=<account_pk>

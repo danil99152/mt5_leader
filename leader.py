@@ -21,7 +21,7 @@ leader_id = 0
 def get_settings(account_idx):
     global init_data, leader_id
     try:
-        url = host + f'/exchange/get/{account_idx}'
+        url = host + f'exchange/get/{account_idx}'
         init_data = requests.get(url=url).json()[-1]
         init_data['path'] = terminal_path
     except Exception as e:

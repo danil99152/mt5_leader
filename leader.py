@@ -1,6 +1,5 @@
 import asyncio
 import json
-import os
 from datetime import datetime
 
 import requests
@@ -13,8 +12,8 @@ terminal: Terminal
 event_loop = asyncio.Event()  # init async event
 init_data = {}
 host = settings.host
-terminal_path = os.path.abspath('MetaTrader5/terminal64.exe')
-exchange_id = int(os.getenv("EXCHANGE_ID"))
+terminal_path = settings.terminal_path
+exchange_id = settings.exchange_id
 
 
 def get_settings(exchange_idx):

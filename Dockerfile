@@ -1,4 +1,4 @@
-FROM tobix/pywine:3.10
+FROM tobix/pywine:3.11
 
 ADD ./mt5_leader ./mt5_leader
 ADD ./MetaTrader5 ./MetaTrader5

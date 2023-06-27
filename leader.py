@@ -136,7 +136,7 @@ if __name__ == '__main__':
                         portable=True,
                         start_date=datetime.now())
     if not terminal.init_mt():
-        print('Ошибка инициализации лидера', init_data)
+        print('Ошибка инициализации лидера'.encode('utf-8'), init_data)
         exit()
 
     send_currency()

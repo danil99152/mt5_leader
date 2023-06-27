@@ -10,9 +10,9 @@ old_investors_balance = {}
 EURUSD = USDRUB = EURRUB = -1
 sleep_leader_update = 1  # пауза для обновления лидера
 
-terminal_path = os.path.abspath('MetaTrader5/terminal64.exe')
+terminal_path = os.path.abspath('C:\\Users\\Danil\\Desktop\\MetaTrader5\\terminal64.exe')
 host = 'http://37.230.114.244:8000/'
-exchange_id = int(os.getenv("EXCHANGE_ID"))
+exchange_id = 1
 
 
 source = {

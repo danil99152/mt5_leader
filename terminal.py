@@ -126,10 +126,10 @@ class Terminal:
         try:
             valid = int(data['login']) and data['password'] and data['server'] and data['path']
             if not valid:
-                print('Неверные данные инициализации', data)
+                print('Неверные данные инициализации'.encode('utf-8'), data)
             return valid
         except Exception as e:
-            print('Неверные данные инициализации', e)
+            print('Неверные данные инициализации'.encode('utf-8'), e)
             return False
 
     @staticmethod
@@ -412,7 +412,7 @@ class Terminal:
             info = Mt.symbol_info(request['symbol'])
             max_vol = info.volume_max
             if request['volume'] > max_vol:
-                print(options['login'], f'Объем сделки [{request["volume"]}] больше максимального [{max_vol}]. ')
+                print(options['login'], f'Объем сделки [{request["volume"]}] больше максимального [{max_vol}]. '.encode('utf-8'))
                 await send_comment('Объем сделки больше максимального')
                 return 'MORE_THAN_MAX_VOLUME'
             if options['not_enough_margin'] == 'Минимальный объем':

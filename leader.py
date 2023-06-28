@@ -105,12 +105,12 @@ async def update_leader_info(sleep=settings.sleep_leader_update):
         await send_trade_state(leader_balance, leader_equity)
 
         active_db_positions = await get_db_positions(exchange_id)
-        active_db_tickets = [position['ticket'] for position in active_db_positions]
+        active_db_tickets = [int(position['ticket']) for position in active_db_positions]
         terminal_positions = Terminal.get_positions(only_own=False)
         terminal_tickets = [position.ticket for position in terminal_positions]
         for position in active_db_positions:
             if position['ticket'] not in terminal_tickets:
-                await disable_position(exchange_id, position['ticket'])
+                await disable_position(exchange_id, int(position['ticket']))
         for position in terminal_positions:
             if position.ticket not in active_db_tickets:
                 await send_position(position)

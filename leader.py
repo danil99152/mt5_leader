@@ -109,7 +109,7 @@ async def update_leader_info(sleep=settings.sleep_leader_update):
         terminal_positions = Terminal.get_positions(only_own=False)
         terminal_tickets = [position.ticket for position in terminal_positions]
         for position in active_db_positions:
-            if position['ticket'] not in terminal_tickets:
+            if int(position['ticket']) not in terminal_tickets:
                 await disable_position(exchange_id, int(position['ticket']))
         for position in terminal_positions:
             if position.ticket not in active_db_tickets:

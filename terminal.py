@@ -525,7 +525,7 @@ class Terminal:
                 position_exist = False
                 for lp in leader_positions:
                     comment = DealComment().set_from_string(ip.comment)
-                    if comment.lieder_ticket == lp['ticket']:
+                    if comment.lieder_ticket == int(lp['ticket']):
                         position_exist = True
                         break
                 if not position_exist:
